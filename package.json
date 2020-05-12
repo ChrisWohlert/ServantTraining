@@ -1,0 +1,33 @@
+{
+  "name": "servanttraining",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "grunt-ts": "^6.0.0-beta.22"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.3.38",
+    "ditmer-embla": "^1.1.9",
+    "grunt": "^1.1.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "typescript": "^3.8.3",
+    "webpack-notifier": "^1.8.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://chriswohlert:Mulucoco89@github.com/ChrisWohlert/ServantTraining.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ChrisWohlert/ServantTraining/issues"
+  },
+  "homepage": "https://github.com/ChrisWohlert/ServantTraining#readme"
+}
