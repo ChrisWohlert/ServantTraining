@@ -26,11 +26,12 @@ import Text.Blaze.Html5.Attributes
 import Text.Blaze.Html.Renderer.Utf8
 import qualified Data.Aeson.Parser
 import qualified Text.Blaze.Html
+import WaiAppStatic.Storage.Filesystem
 
 
 type Api = Get '[Html] (Layout Welcome)
       :<|> "books" :> Get '[JSON, Html] (Layout [Book])
-      :<|> Raw
+      :<|> "dist" :> Raw
 
 data Welcome = Welcome
 
@@ -43,7 +44,7 @@ newtype Layout a = Layout a
 server :: Server Api
 server = welcome 
     :<|> getBooks
-    :<|> serveDirectoryWebApp "/"
+    :<|> serveDirectoryWebApp "dist"
 
 welcome = return $ Layout Welcome
 
@@ -63,7 +64,8 @@ instance ToMarkup a => ToMarkup (Layout a) where
             h1 "Layout"
             toHtml x
             p "help"
-            script ! type_ "text/javascript" ! src "dist/js/scripts.js" $ ""
+            script ! type_ "text/javascript" ! src "/dist/js/common.js" $ ""
+            script ! type_ "text/javascript" ! src "/dist/js/shared.js" $ ""
 
 instance ToMarkup Welcome where
     toMarkup _ = h1 "Welcome"
@@ -78,9 +80,6 @@ instance ToJSON Book
 
 instance ToJSON a => ToJSON (Layout a) where
     toJSON (Layout x) = toJSON x
-
--- git test
-
 
 instance ToMarkup [Book] where
     toMarkup xs = mconcat $ map toHtml xs

@@ -1,0 +1,3 @@
+Fix for IE svg <use> tags
+
+See https://github.com/Keyamoon/svgxuse

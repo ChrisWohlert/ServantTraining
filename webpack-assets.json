@@ -1,0 +1,11 @@
+{
+  "shared": {
+    "js": "shared.js"
+  },
+  "svgxuse": {
+    "js": "svgxuse.js"
+  },
+  "common": {
+    "js": "common.js"
+  }
+}

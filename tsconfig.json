@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+      "outDir": "./dist/js/",
+      "sourceMap": true,
+      "noImplicitAny": false,
+      "suppressImplicitAnyIndexErrors": true,
+      "target": "es5",
+      "lib":  ["es6", "dom"], 
+      "jsx": "react",
+      "allowJs": true,
+      "experimentalDecorators": true,
+      "allowUnreachableCode": true,
+      "plugins": [
+        { "name": "typescript-tslint-plugin" }
+      ] 
+    },
+    "include": [
+      "./www/scripts/**/*"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist",
+      "www/scripts/libs"
+    ]
+    //"typeRoots": [
+    //  // add path to @types
+    //  "node_modules/@types"
+    //]
+    
+  }
+  

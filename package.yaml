@@ -42,6 +42,7 @@ executables:
     - blaze-html
     - http-media
     - blaze-markup
+    - wai-app-static
 
 tests:
   ServantTraining-test:

@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 7a0fbbdb89358c1a45ebf15dc91e2ee5c6d5815d3b21da808c73b534ef37adcd
+-- hash: 32261aaacf882db05c490899698dbb72680e505c7ff0cacc41a9f6bf9ffcd7c5
 
 name:           ServantTraining
 version:        0.1.0.0
@@ -52,6 +52,7 @@ executable ServantTraining-exe
     , http-media
     , servant-server
     , wai
+    , wai-app-static
     , warp
   default-language: Haskell2010
 
