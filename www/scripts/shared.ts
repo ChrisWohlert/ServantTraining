@@ -2,7 +2,7 @@
 
 $(document).ready(() => {
     const t = new Test(() => alert("test"));
-    t.go();
+    //t.go();
 });
 
 class Test {

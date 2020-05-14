@@ -1,7 +1,6 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RankNTypes #-}
@@ -21,7 +20,7 @@ import Network.Wai.Handler.Warp
 import Servant
 import Text.Blaze
 import Text.Blaze.Html
-import Text.Blaze.Html5 hiding (map, main)
+import Text.Blaze.Html5 hiding (map, main, html)
 import Text.Blaze.Html5.Attributes
 import Text.Blaze.Html.Renderer.Utf8
 import qualified Data.Aeson.Parser
@@ -56,23 +55,30 @@ instance Accept Html where
 instance ToMarkup a => MimeRender Html a where
     mimeRender _ = renderHtml . toHtml
 
-instance ToMarkup a => ToMarkup (Layout a) where
-    toMarkup (Layout x) = docTypeHtml $ do
+instance HtmlComponent a => ToMarkup (Layout a) where
+    toMarkup = html
+
+instance HtmlComponent a => HtmlComponent (Layout a) where
+    html l@(Layout x) = docTypeHtml $ do
         htmlHead $ do
             htmlTitle "Heyo"
+            link ! rel "stylesheet" ! href "dist/css/shared.css"
         body $ do
             h1 "Layout"
-            toHtml x
+            html x
             p "help"
-            script ! type_ "text/javascript" ! src "/dist/js/common.js" $ ""
-            script ! type_ "text/javascript" ! src "/dist/js/shared.js" $ ""
+            insertScripts
+                where
+                    insertScripts = mconcat $ map toScript (scripts l ++ scripts x)
+                    toScript (Script src') = script ! type_ "text/javascript" ! src src' $ ""
+    scripts l = [Script "/dist/js/common.js", Script "/dist/js/shared.js"]
 
-instance ToMarkup Welcome where
-    toMarkup _ = h1 "Welcome"
+instance HtmlComponent Welcome where
+    html _ = h1 "Welcome"
 
-instance ToMarkup Book where
-    toMarkup (Book isbn title) = 
-        d $ do
+instance HtmlComponent Book where
+    html (Book isbn title) = 
+        d ! class_ "book" $ do
             p (toHtml isbn)
             p (toHtml title)
 
@@ -81,9 +87,15 @@ instance ToJSON Book
 instance ToJSON a => ToJSON (Layout a) where
     toJSON (Layout x) = toJSON x
 
-instance ToMarkup [Book] where
-    toMarkup xs = mconcat $ map toHtml xs
+instance HtmlComponent [Book] where
+    html xs = mconcat $ map html xs
 
+class HtmlComponent a where
+    html :: a -> Html
+    scripts :: a -> [Script]
+    scripts x = []
+
+data Script = Script AttributeValue
 
 d = Text.Blaze.Html5.div
 htmlHead = Text.Blaze.Html5.head
