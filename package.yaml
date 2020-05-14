@@ -43,6 +43,8 @@ executables:
     - http-media
     - blaze-markup
     - wai-app-static
+    - mtl
+    - exceptions
 
 tests:
   ServantTraining-test:

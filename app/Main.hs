@@ -26,6 +26,9 @@ import Text.Blaze.Html.Renderer.Utf8
 import qualified Data.Aeson.Parser
 import qualified Text.Blaze.Html
 import WaiAppStatic.Storage.Filesystem
+import Control.Monad.Reader
+import Control.Monad.Catch (try)
+import Control.Monad.Except
 
 
 type Api = Get '[Html] (Layout Welcome)
@@ -74,7 +77,7 @@ instance HtmlComponent a => HtmlComponent (Layout a) where
     scripts l = [Script "/dist/js/common.js", Script "/dist/js/shared.js"]
 
 instance HtmlComponent Welcome where
-    html _ = h1 "Welcome"
+    html Welcome = h1 "Welcome"
 
 instance HtmlComponent Book where
     html (Book isbn title) = 
@@ -108,3 +111,20 @@ app = serve proxy server
 
 main :: IO ()
 main = run 3000 app
+
+
+
+-- COOKIE Sessions
+
+type App = ReaderT AppContext (ExceptT ServantErr IO)
+
+data AppContext = AppContext
+  { appContextAuthSettings :: AuthCookieSettings
+  , appContextRandomSource :: RandomSource
+  , appContextServerKey    :: ServerKey
+  , appContextApproot      :: String
+  , appContextPort         :: Int
+  , appContextScheme       :: String
+  }
+
+data Session = Session { sessionUsername :: Text}
