@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: ebac7c75ce7f5b93dd368cdd0ebbeacd22c0758151f21b33d139d0803e6276a7
+-- hash: 8c5992abca3ec90c29eee82aca24c06fd508a254b1e158596fa900818cd72507
 
 name:           ServantTraining
 version:        0.1.0.0
@@ -52,6 +52,8 @@ executable ServantTraining-exe
     , exceptions
     , http-media
     , mtl
+    , servant-auth
+    , servant-auth-server
     , servant-server
     , wai
     , wai-app-static

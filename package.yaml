@@ -44,7 +44,9 @@ executables:
     - blaze-markup
     - wai-app-static
     - mtl
+    - servant-auth
     - exceptions
+    - servant-auth-server
 
 tests:
   ServantTraining-test:

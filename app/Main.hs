@@ -6,6 +6,8 @@
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeOperators #-}
+{-# OPTIONS_GHC -fno-warn-unused-binds #-}
+{-# OPTIONS_GHC -fno-warn-deprecations #-}
 
 module Main where
 
@@ -26,9 +28,15 @@ import Text.Blaze.Html.Renderer.Utf8
 import qualified Data.Aeson.Parser
 import qualified Text.Blaze.Html
 import WaiAppStatic.Storage.Filesystem
+import Control.Monad (forever)
 import Control.Monad.Reader
 import Control.Monad.Catch (try)
 import Control.Monad.Except
+import Control.Monad.Trans (liftIO)
+import Control.Concurrent (forkIO)
+import Servant.Auth.Server
+import Servant.Auth.Server.SetCookieOrphan ()
+import System.Environment (getArgs)
 
 
 type Api = Get '[Html] (Layout Welcome)
@@ -115,16 +123,3 @@ main = run 3000 app
 
 
 -- COOKIE Sessions
-
-type App = ReaderT AppContext (ExceptT ServantErr IO)
-
-data AppContext = AppContext
-  { appContextAuthSettings :: AuthCookieSettings
-  , appContextRandomSource :: RandomSource
-  , appContextServerKey    :: ServerKey
-  , appContextApproot      :: String
-  , appContextPort         :: Int
-  , appContextScheme       :: String
-  }
-
-data Session = Session { sessionUsername :: Text}
