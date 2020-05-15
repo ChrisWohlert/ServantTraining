@@ -47,6 +47,7 @@ executables:
     - servant-auth
     - exceptions
     - servant-auth-server
+    - warp-tls
 
 tests:
   ServantTraining-test:
